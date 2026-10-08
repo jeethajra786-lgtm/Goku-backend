@@ -1,0 +1,19 @@
+const express = require('express');
+const cors = require('cors');
+const fetch = require('node-fetch');
+const app = express();
+
+app.use(cors());
+
+app.get('/api/results', async (req, res) => {
+  try {
+    const r = await fetch('https://draw.ar-lottery01.com/WinGo/WinGo_1M/GetHistoryIssuePage.json');
+    const data = await r.json();
+    res.json(data);
+  } catch(e) {
+    res.status(500).json({ error: 'API not reachable' });
+  }
+});
+
+const PORT = process.env.PORT || 3000;
+app.listen(PORT, () => console.log('Goku server running on port ' + PORT));
